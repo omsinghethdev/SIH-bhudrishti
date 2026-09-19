@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BhuDrishti 3D — 3D Cadastre & Vertical Property Mapping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-shell" id="appShell">
+
+  <!-- ============================= SIDEBAR ============================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg></div>
+      <div class="name">BhuDrishti 3D<small>3D Cadastre Platform</small></div>
+    </div>
+    <nav class="nav-scroll">
+      <div class="nav-group-label">Command Center</div>
+      <button class="nav-item active" data-view="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span>Overview Dashboard</span></button>
+      <button class="nav-item" data-view="explorer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg><span>3D Cadastre Explorer</span></button>
+      <button class="nav-item" data-view="conflicts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span>Conflict Radar</span></button>
+      <button class="nav-item" data-view="proposed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10M12 10l-4 4M12 10l4 4"/><path d="M4 20h16"/></svg><span>Proposed Infrastructure</span></button>
+      <button class="nav-item" data-view="vstack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="4"/><rect x="4" y="10" width="16" height="4"/><rect x="4" y="17" width="16" height="4"/></svg><span>Vertical Stack</span></button>
+      <button class="nav-item" data-view="underground"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M4 20V10l8-6 8 6v10"/><circle cx="12" cy="15" r="1.6"/></svg><span>Underground / X-Ray</span></button>
+
+      <div class="nav-group-label">Records</div>
+      <button class="nav-item" data-view="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Property Search</span></button>
+      <button class="nav-item" data-view="passport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h3M15 12h3M6 16h12"/></svg><span>Property Passport</span></button>
+      <button class="nav-item" data-view="wizard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg><span>Generate 3D ULPIN</span></button>
+
+      <div class="nav-group-label">Field &amp; Review</div>
+      <button class="nav-item" data-view="intake"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg><span>Survey &amp; Data Intake</span></button>
+      <button class="nav-item" data-view="utility"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg><span>Utility &amp; Infrastructure</span></button>
+      <button class="nav-item" data-view="approvals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Approval Workflows</span></button>
+
+      <div class="nav-group-label">Insights</div>
+      <button class="nav-item" data-view="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg><span>Analytics &amp; Reports</span></button>
+
+      <div class="nav-group-label">Administration</div>
+      <button class="nav-item" data-view="users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="18" cy="8.5" r="2.4"/><path d="M15.5 14.2c2.6.4 4.5 2.6 4.5 5.3"/></svg><span>User &amp; Role Management</span></button>
+      <button class="nav-item" data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.14.36.4.66.73.86.31.2.68.31 1.06.31H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>Settings</span></button>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="sidebar-collapse-btn" id="collapseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Collapse</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================= TOPBAR ============================= -->
+  <header class="topbar">
+    <div class="jurisdiction-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.4-7-11.5A7 7 0 0112 2a7 7 0 017 7.5C19 14.6 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.2"/></svg>
+      <strong>MP Nagar, Bhopal Municipal Area</strong> <span>(Demo Dataset)</span>
+    </div>
+    <div class="topbar-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" placeholder="Search ULPIN, address, building, owner…" id="globalSearch">
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="icon-btn" title="Help"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+    <button class="icon-btn" title="Notifications" id="notifBtn"><span class="dot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></button>
+    <button class="icon-btn" title="Sign out" id="logoutBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
+    <div class="role-switcher">
+      <div class="avatar" id="roleAvatar">RO</div>
+      <select id="roleSelect">
+        <option value="planner">Government / Planner</option>
+        <option value="constructor">Constructor / Engineer</option>
+        <option value="surveyor">Architect / Surveyor</option>
+        <option value="public">Public User</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- ======================== MOBILE TOPBAR ======================== -->
+  <div class="mobile-topbar">
+    <span class="name">BhuDrishti 3D</span>
+    <div class="topbar-spacer"></div>
+    <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></button>
+  </div>
+
+  <!-- ============================= MAIN ============================= -->
+  <main class="main" id="mainArea">
+
+    <!-- ---------------------------------------------------------- OVERVIEW -->
+    <section class="view active" id="view-overview">
+      <div class="hero-band">
+        <svg class="contour-motif" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="#fff" stroke-width="2"/><circle cx="100" cy="100" r="65" fill="none" stroke="#fff" stroke-width="2"/><circle cx="100" cy="100" r="40" fill="none" stroke="#fff" stroke-width="2"/></svg>
+        <h1>Welcome back, Officer Mehta</h1>
+        <p>You're viewing MP Nagar, Bhopal Municipal Area. This demo locality illustrates how a 2D land parcel becomes a verified, conflict-aware 3D property record, alongside the metro corridor, railway track, and public spaces around it.</p>
+      </div>
+
+      <div class="kpi-grid" id="overviewKpis"></div>
+
+      <div class="quick-actions">
+        <button class="quick-action" data-view="explorer"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/></svg></div><span>Explore 3D Map</span></button>
+        <button class="quick-action" data-view="search"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><span>Search Property</span></button>
+        <button class="quick-action" data-view="proposed"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10M12 10l-4 4M12 10l4 4"/><path d="M4 20h16"/></svg></div><span>Add Infrastructure</span></button>
+        <button class="quick-action" id="qaRunConflict"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div><span>Run Conflict Analysis</span></button>
+        <button class="quick-action" data-view="intake"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg></div><span>Upload Survey</span></button>
+        <button class="quick-action" id="qaGenReport"><div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></div><span>Generate Report</span></button>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:16px">
+        <div class="card">
+          <div class="card-title-row"><h3>Recent conflicts</h3><span class="muted-link" data-view="conflicts">View all</span></div>
+          <div id="recentConflicts"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Recent uploaded surveys</h3><span class="muted-link" data-view="intake">View all</span></div>
+          <div id="recentSurveys"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Recently inspected properties</h3><span class="muted-link" data-view="search">View all</span></div>
+          <div id="recentProperties"></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:16px">
+        <div class="card">
+          <div class="card-title-row"><h3>Active infrastructure projects</h3><span class="muted-link" data-view="proposed">Plan new</span></div>
+          <div id="activeProjects"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Recent activity</h3><span class="muted-link">View all</span></div>
+          <div id="activityFeed"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title-row"><h3>MP Nagar conflict heat map</h3></div>
+          <div class="mini-map" id="miniMap"></div>
+          <div class="divider"></div>
+          <div style="display:flex;gap:14px;font-size:11.5px;color:var(--text-secondary)">
+            <span><span class="severity-dot sev-critical"></span> Critical zone</span>
+            <span><span class="severity-dot sev-review"></span> Under review</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Data confidence summary</h3></div>
+          <div class="confidence-bar-row"><span class="clabel">Verified</span><div class="progress-track" style="flex:1"><div class="progress-fill" style="width:62%;background:var(--success)"></div></div><span class="cval">62%</span></div>
+          <div class="confidence-bar-row"><span class="clabel">Review needed</span><div class="progress-track" style="flex:1"><div class="progress-fill" style="width:27%;background:var(--warning)"></div></div><span class="cval">27%</span></div>
+          <div class="confidence-bar-row"><span class="clabel">Low confidence</span><div class="progress-track" style="flex:1"><div class="progress-fill" style="width:11%;background:var(--error)"></div></div><span class="cval">11%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- EXPLORER -->
+    <section class="view view-flush" id="view-explorer">
+      <div class="explorer-shell">
+        <div class="explorer-toolbar">
+          <button class="btn btn-sm" id="localityBackBtn" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>Locality map</button>
+          <div id="explorerBreadcrumb" style="font-size:12.5px;font-weight:700;color:var(--navy-800);white-space:nowrap;padding:0 6px">MP Nagar Locality</div>
+          <div class="toolbar-sep"></div>
+          <div class="toolbar-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" placeholder="Search ULPIN / building / address" id="explorerSearchInput" value="MP Nagar, Bhopal">
+          </div>
+          <div class="toolbar-sep"></div>
+          <div class="mode-toggle" id="viewModeToggle">
+            <button class="active" data-mode="3d">3D</button>
+            <button data-mode="2.5d">2.5D</button>
+            <button data-mode="2d">2D</button>
+          </div>
+          <div class="mode-toggle" id="localityViewToggle" style="display:none">
+            <button class="active" data-mapmode="schematic">Schematic</button>
+            <button data-mapmode="roadmap">Road Map</button>
+            <button data-mapmode="satellite">Satellite</button>
+          </div>
+          <div class="toolbar-sep"></div>
+          <button class="btn btn-sm" id="explodeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6v6M20 4h-6v6M4 20h6v-6M20 20h-6v-6"/></svg>Explode</button>
+          <button class="btn btn-sm" id="xrayBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>X-ray</button>
+          <button class="btn btn-sm" id="undergroundBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg>Underground</button>
+          <button class="btn btn-sm" id="vstackBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="4"/><rect x="4" y="10" width="16" height="4"/><rect x="4" y="17" width="16" height="4"/></svg>Vertical Stack</button>
+          <button class="btn btn-sm btn-teal" id="proposeInfraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M12 10l-4 4M12 10l4 4"/><path d="M4 20h16"/></svg>Propose Infrastructure</button>
+          <div class="topbar-spacer"></div>
+          <button class="icon-btn" title="Measure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 3 3 8-8"/></svg></button>
+          <button class="icon-btn" title="Reset camera" id="resetCameraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg></button>
+          <button class="icon-btn" title="Full screen" id="fullscreenBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M8 21H5a2 2 0 01-2-2v-3M16 21h3a2 2 0 002-2v-3"/></svg></button>
+          <div class="dropdown-wrap">
+            <button class="icon-btn" title="Export" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/></svg></button>
+            <div class="dropdown-menu" id="exportMenu">
+              <button data-fmt="GeoJSON"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5z"/></svg>Export GeoJSON</button>
+              <button data-fmt="CityGML"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Export CityGML</button>
+              <button data-fmt="PDF summary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>Export PDF summary</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="explorer-layers">
+          <div id="localityLayerGroup">
+            <h4>MP Nagar locality layers</h4>
+            <div class="layer-row"><span class="swatch" style="background:#7fa8c9"></span><label>Buildings</label><input type="checkbox" checked id="locLayerBuildings"></div>
+            <div class="layer-row"><span class="swatch" style="background:#5b5f97"></span><label>Metro corridor (under construction)</label><input type="checkbox" checked id="locLayerMetro"></div>
+            <div class="layer-row"><span class="swatch" style="background:#6b4f2a"></span><label>Railway track</label><input type="checkbox" checked id="locLayerRail"></div>
+            <div class="layer-row"><span class="swatch" style="background:#3f8f5b"></span><label>Parks &amp; public spaces</label><input type="checkbox" checked id="locLayerParks"></div>
+            <div class="layer-row"><span class="swatch" style="background:#b9c2c9"></span><label>Road network</label><input type="checkbox" checked id="locLayerRoads"></div>
+            <div class="divider"></div>
+            <div style="font-size:11.5px;color:var(--text-secondary);line-height:1.6">Click any building, the metro corridor, the railway track, or a park to inspect it. Buildings open a full 3D volume view.</div>
+          </div>
+          <div id="buildingLayerGroup" style="display:none">
+            <h4>Layers</h4>
+            <div class="layer-row"><span class="swatch" style="background:#1F4E79"></span><label>Parcels</label><input type="checkbox" checked></div>
+            <div class="layer-row"><span class="swatch" style="background:#7fa8c9"></span><label>Buildings</label><input type="checkbox" checked></div>
+            <div class="layer-row"><span class="swatch" style="background:#b9c2c9"></span><label>Roads</label><input type="checkbox" checked id="layerRoads"></div>
+            <div class="layer-row"><span class="swatch" style="background:#5b5f97"></span><label>Metro</label><input type="checkbox" id="layerMetro"></div>
+            <div class="layer-row"><span class="swatch" style="background:#6b4f2a"></span><label>Railway</label><input type="checkbox" id="layerRail"></div>
+            <div class="layer-row"><span class="swatch" style="background:#2563a9"></span><label>Water</label><input type="checkbox" id="layerWater"></div>
+            <div class="layer-row"><span class="swatch" style="background:#d9702e"></span><label>Gas</label><input type="checkbox" id="layerGas"></div>
+            <div class="layer-row"><span class="swatch" style="background:#c8831a"></span><label>Electricity</label><input type="checkbox" id="layerElectricity"></div>
+            <div class="layer-row"><span class="swatch" style="background:#3f8f5b"></span><label>Telecom / Fiber</label><input type="checkbox" id="layerTelecom"></div>
+            <div class="layer-row"><span class="swatch" style="background:#2F6F73"></span><label>Underground utilities</label><input type="checkbox" id="layerUtility"></div>
+            <div class="layer-row"><span class="swatch" style="background:#a9c19a"></span><label>Terrain</label><input type="checkbox" id="layerTerrain"></div>
+            <div class="layer-row"><span class="swatch" style="background:#b64242"></span><label>Conflicts</label><input type="checkbox" checked></div>
+            <div class="layer-row"><span class="swatch" style="background:#2e7d5b"></span><label>Verified volumes</label><input type="checkbox" checked></div>
+            <div class="layer-row"><span class="swatch" style="background:#c8831a"></span><label>Proposed infrastructure</label><input type="checkbox" id="layerProposed"></div>
+            <div class="divider"></div>
+            <h4>Survey / LiDAR layers</h4>
+            <div class="layer-row"><span class="swatch" style="background:#8b98a5"></span><label>Point cloud</label><input type="checkbox" id="layerPointCloud"></div>
+            <div class="layer-row"><span class="swatch" style="background:#5b7d99"></span><label>LiDAR mesh</label><input type="checkbox" id="layerLidar"></div>
+            <div class="layer-row"><span class="swatch" style="background:#425867"></span><label>Floor plan overlay</label><input type="checkbox" id="layerFloorplan"></div>
+            <div class="layer-row"><span class="swatch" style="background:#c8831a"></span><label>GNSS survey points</label><input type="checkbox" id="layerGnss"></div>
+            <div class="divider"></div>
+            <h4>Aerial &amp; transit</h4>
+            <div class="layer-row"><span class="swatch" style="background:#2563a9"></span><label>Drone flight path</label><input type="checkbox" id="layerDrone"></div>
+            <div class="layer-row"><span class="swatch" style="background:#667085"></span><label>Aeroplane air corridor</label><input type="checkbox" id="layerPlane"></div>
+            <div class="divider"></div>
+            <h4>Layer opacity</h4>
+            <input type="range" min="20" max="100" value="100" style="width:100%" id="layerOpacitySlider">
+            <div class="divider"></div>
+            <h4>Building</h4>
+            <div style="font-size:12px;color:var(--text-secondary);line-height:1.7" id="buildingSummary">
+              <strong style="color:var(--navy-900)">Lakeview Residency</strong><br>
+              Building 01 · 5 floors · 2 basements<br>
+              Parent ULPIN <span class="mono">1450A9B7C23456</span>
+            </div>
+            <div class="divider"></div>
+            <h4>Elevation</h4>
+            <input type="range" min="0" max="7" value="7" style="width:100%" id="elevSlider">
+            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-faint)"><span>B2</span><span>Terrace</span></div>
+          </div>
+        </div>
+
+        <div class="explorer-viewport" id="explorerViewportEl">
+          <div class="viewport-hint" id="viewportHint">Click a building to open its 3D volume view. Click the metro corridor, railway track, or a park for infrastructure details.</div>
+          <div id="buildingSvgHost"></div>
+          <div class="viewport-caption" id="viewportCaption">MP Nagar, Bhopal — locality map, demo dataset</div>
+        </div>
+
+        <div class="explorer-detail" id="explorerDetail"></div>
+      </div>
+
+      <div class="explorer-bottom-panels" id="explorerBottomPanels">
+        <div class="bottom-panel">
+          <div class="bottom-panel-head"><h4>Floor Plan <span id="floorPlanSubtitle" class="bp-subtitle"></span></h4></div>
+          <div class="bottom-panel-body" id="floorPlanPanel"></div>
+        </div>
+        <div class="bottom-panel">
+          <div class="bottom-panel-head"><h4>Underground View <span class="bp-subtitle">(Cross-section)</span></h4></div>
+          <div class="bottom-panel-body" id="undergroundCrossPanel"></div>
+        </div>
+        <div class="bottom-panel">
+          <div class="bottom-panel-head"><h4>Conflict Detection</h4></div>
+          <div class="bottom-panel-body" id="conflictDetectPanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- SEARCH -->
+    <section class="view" id="view-search">
+      <div class="view-header">
+        <div><h1>Property Search</h1><div class="sub">Search public and verified records by ULPIN, address, or unit</div></div>
+      </div>
+      <div class="search-hero">
+        <div class="search-hero-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Try “1450A9B7C23456”, “Lakeview Residency”, or “Apartment 402”">
+        </div>
+        <div class="search-method-row">
+          <div class="search-method-chip active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg>3D ULPIN</div>
+          <div class="search-method-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 0118 0z"/></svg>Address</div>
+          <div class="search-method-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/></svg>Scan QR</div>
+          <div class="search-method-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5z"/></svg>Select on map</div>
+          <div class="search-method-chip" id="spatialChip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Spatial query</div>
+        </div>
+      </div>
+      <div class="card" id="spatialQueryPanel" style="display:none;margin-bottom:16px">
+        <div class="card-title-row"><h3>Spatial query — radius search around Lakeview Residency</h3></div>
+        <div class="mini-map" id="spatialMiniMap" style="height:150px"></div>
+        <div class="field" style="margin-top:12px;margin-bottom:8px"><label>Query radius (m)</label><input type="range" min="50" max="500" value="150" id="spatialRadius"></div>
+        <button class="btn btn-primary btn-sm" id="runSpatialBtn">Run spatial query</button>
+        <div id="spatialResultCount" style="font-size:12px;color:var(--text-secondary);margin-top:10px"></div>
+      </div>
+      <div class="filter-row">
+        <select><option>All property types</option><option>Apartment</option><option>Commercial</option><option>Parking</option><option>Common area</option></select>
+        <select><option>All verification statuses</option><option>Verified</option><option>Review required</option><option>Low confidence</option></select>
+        <select><option>Any conflict status</option><option>No conflict</option><option>Under review</option></select>
+        <select><option>Any survey year</option><option>2026</option><option>2025</option><option>2024</option></select>
+      </div>
+      <div id="searchResults"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------- WIZARD -->
+    <section class="view" id="view-wizard">
+      <div class="view-header">
+        <div><h1>Generate 3D ULPIN</h1><div class="sub">Extend a parent parcel into a verified 3D property volume</div></div>
+      </div>
+      <div class="wizard-steps" id="wizardSteps"></div>
+      <div class="wizard-shell">
+        <div class="wizard-panel" id="wizardPanel"></div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-title-row"><h3>Live ID preview</h3></div>
+            <div class="id-preview-box" id="idPreview"></div>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>Context map</h3></div>
+            <div class="mini-map" style="height:140px" id="wizardMiniMap"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- INTAKE -->
+    <section class="view" id="view-intake">
+      <div class="view-header">
+        <div><h1>Survey &amp; Data Intake</h1><div class="sub">Upload field survey, drone, LiDAR, and floor-plan data for processing</div></div>
+        <div class="view-actions"><button class="btn btn-primary" id="fieldModeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Field Survey Mode</button></div>
+      </div>
+      <div class="grid-2">
+        <div class="stack">
+          <div class="dropzone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/></svg>
+            <div style="font-weight:700;color:var(--text);margin-bottom:4px">Drag and drop survey data here</div>
+            <div style="font-size:12px">GeoJSON, Shapefile, CAD, drone orthophoto, LiDAR point cloud, DEM/DSM, GNSS points</div>
+            <button class="btn btn-sm" style="margin-top:12px">Browse files</button>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>Uploaded datasets</h3></div>
+            <div id="datasetList"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Processing pipeline — Lakeview Residency LiDAR pass</h3></div>
+          <div id="pipelineSteps"></div>
+          <div class="divider"></div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:8px">Before / after — floor extraction</div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;height:110px;border-radius:6px;background:repeating-linear-gradient(45deg,#dde5ea,#dde5ea 3px,#eef2f5 3px,#eef2f5 7px);border:1px solid var(--border);display:flex;align-items:flex-end;justify-content:center;font-size:10.5px;color:var(--text-secondary);padding-bottom:6px">Raw point cloud</div>
+            <div style="flex:1;height:110px;border-radius:6px;background:var(--info-bg);border:1px solid var(--border);display:flex;align-items:flex-end;justify-content:center;font-size:10.5px;color:var(--navy-700);font-weight:700;padding-bottom:6px">Building shell detected</div>
+            <div style="flex:1;height:110px;border-radius:6px;background:var(--success-bg);border:1px solid var(--border);display:flex;align-items:flex-end;justify-content:center;font-size:10.5px;color:var(--success);font-weight:700;padding-bottom:6px">5 floor bands proposed</div>
+          </div>
+          <button class="btn btn-primary btn-block" style="margin-top:14px" data-view="intake-review">Review AI Output</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------- INTAKE AI REVIEW -->
+    <section class="view" id="view-intake-review">
+      <div class="view-header">
+        <div><h1>AI-Assisted Floor Segmentation Review</h1><div class="sub">Lakeview Residency, Building 01 — human verification required before approval</div></div>
+        <div class="view-actions"><button class="btn" data-view="intake">Back to intake</button></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title-row"><h3>Detected floor bands</h3></div>
+          <div id="floorReviewList"></div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-title-row"><h3>Explainability</h3></div>
+            <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.6">Floor boundaries were inferred from repeated horizontal point-density changes and submitted plan metadata. Confidence reflects point density consistency and agreement with the uploaded floor plan.</p>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>Corrections</h3></div>
+            <button class="btn btn-block btn-sm" style="margin-bottom:7px">Adjust floor height</button>
+            <button class="btn btn-block btn-sm" style="margin-bottom:7px">Merge / split floors</button>
+            <button class="btn btn-block btn-sm" style="margin-bottom:7px">Correct footprint</button>
+            <button class="btn btn-block btn-sm" style="margin-bottom:7px">Tag common area</button>
+            <button class="btn btn-block btn-sm">Add utility corridor</button>
+          </div>
+          <div class="card">
+            <button class="btn btn-primary btn-block" id="submitSegBtn" style="margin-bottom:8px">Submit for Surveyor Verification</button>
+            <button class="btn btn-block" style="margin-bottom:8px">Save Draft</button>
+            <button class="btn btn-danger btn-block">Reject AI Output</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- CONFLICTS -->
+    <section class="view" id="view-conflicts">
+      <div class="view-header">
+        <div><h1>Conflict Radar</h1><div class="sub">Detect volumetric conflicts before a record is approved</div></div>
+        <div class="view-actions"><button class="btn btn-primary" id="runValidationBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg>Run Validation</button></div>
+      </div>
+      <div class="kpi-grid" id="conflictKpis"></div>
+      <div class="filter-row" id="conflictSeverityStrip" style="gap:10px;margin-bottom:16px"></div>
+      <div class="validation-scan-box" id="scanBox" style="display:none">
+        <div class="card-title-row"><h3>Validation in progress</h3><span id="scanPct" class="mono" style="font-size:12px;color:var(--text-secondary)">0%</span></div>
+        <div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" id="scanProgress" style="width:0%;background:var(--info)"></div></div>
+        <div id="scanStages"></div>
+      </div>
+      <div class="card">
+        <div class="card-title-row"><h3>Open conflicts</h3></div>
+        <div class="table-wrap">
+          <table class="responsive-table">
+            <thead><tr><th>Severity</th><th>Type</th><th>Affected property</th><th>Building / floor</th><th>Volume</th><th>Status</th><th>Officer</th></tr></thead>
+            <tbody id="conflictTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- APPROVALS -->
+    <section class="view" id="view-approvals">
+      <div class="view-header">
+        <div><h1>Approval Workflows</h1><div class="sub">Case management for submitted 3D property records</div></div>
+        <div class="view-actions">
+          <div class="view-toggle" id="approvalViewToggle"><button class="active" data-v="kanban">Kanban</button><button data-v="table">Table</button></div>
+        </div>
+      </div>
+      <div class="filter-row">
+        <select><option>All wards</option><option>Ward 12</option><option>Ward 7</option></select>
+        <select><option>All surveyors</option><option>R. Bansal</option><option>N. Iqbal</option></select>
+        <select><option>Any urgency</option><option>Critical</option><option>Standard</option></select>
+      </div>
+      <div id="approvalKanban" class="kanban-board"></div>
+      <div id="approvalTable" class="card" style="display:none">
+        <div class="table-wrap"><table class="responsive-table"><thead><tr><th>3D ULPIN</th><th>Property</th><th>Status</th><th>Confidence</th><th>Conflict</th><th>SLA</th></tr></thead><tbody id="approvalTableBody"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- UTILITY -->
+    <section class="view" id="view-utility">
+      <div class="view-header">
+        <div><h1>Utility &amp; Infrastructure Planner</h1><div class="sub">Coordinate underground assets and check proposed excavation zones</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title-row"><h3>Underground cross-section — Lakeview Residency corridor</h3></div>
+          <div id="utilitySvgHost" style="display:flex;justify-content:center"></div>
+          <div class="divider"></div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-secondary)" id="utilityLayerToggles"></div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-title-row"><h3>Propose excavation / construction zone</h3></div>
+            <div class="field"><label>Zone depth (m)</label><input type="range" min="1" max="6" value="3.5" step="0.1" id="digDepth"></div>
+            <div class="field"><label>Zone footprint</label><select><option>Basement extension — south wing</option><option>New service trench</option><option>Foundation pad</option></select></div>
+            <button class="btn btn-primary btn-block" id="digSafeBtn">Check Dig-Safe Clearance</button>
+            <div id="digSafeResult"></div>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>Asset registry</h3></div>
+            <div id="utilityAssetRegistry"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- PASSPORT -->
+    <section class="view" id="view-passport">
+      <div class="view-header">
+        <div><h1>3D Property Passport</h1><div class="sub">Verified, shareable record for Apartment 402</div></div>
+        <div class="view-actions">
+          <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>Print</button>
+          <button class="btn btn-primary">Download certificate</button>
+        </div>
+      </div>
+      <div class="passport-toggle"><button class="active" data-p="public">Public view</button><button data-p="official">Official view</button></div>
+      <div class="passport-sheet">
+        <div class="passport-head">
+          <div>
+            <div class="dept">GOVERNMENT OF MADHYA PRADESH · URBAN PROPERTY RECORDS (DEMO)</div>
+            <h2>Apartment 402, Lakeview Residency</h2>
+            <div class="idline">1450A9B7C23456-BLD-01-LVL-04-UNIT-402</div>
+          </div>
+          <div class="qr-box"><svg viewBox="0 0 24 24" width="40" height="40" fill="var(--navy-900)"><rect x="1" y="1" width="7" height="7"/><rect x="16" y="1" width="7" height="7"/><rect x="1" y="16" width="7" height="7"/><rect x="10" y="1" width="2" height="2"/><rect x="13" y="4" width="2" height="2"/><rect x="10" y="10" width="4" height="4"/><rect x="16" y="10" width="2" height="2"/><rect x="20" y="13" width="2" height="2"/><rect x="10" y="16" width="2" height="6"/><rect x="16" y="16" width="2" height="2"/><rect x="20" y="20" width="3" height="3"/></svg></div>
+        </div>
+        <div class="passport-body">
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:18px">
+            <span class="badge badge-success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Verified</span>
+            <span style="font-size:12px;color:var(--text-secondary)">Geometry and ownership metadata approved on 18 Aug 2026</span>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="passport-section">
+                <h4>Property identity</h4>
+                <div class="detail-row"><span class="k">Parent ULPIN</span><span class="v mono">1450A9B7C23456</span></div>
+                <div class="detail-row"><span class="k">Building</span><span class="v">Lakeview Residency, Bldg 01</span></div>
+                <div class="detail-row"><span class="k">Level</span><span class="v">Floor 4</span></div>
+                <div class="detail-row"><span class="k">Property type</span><span class="v">Apartment</span></div>
+                <div class="detail-row"><span class="k">Location</span><span class="v">14 Lakeview Avenue, MP Nagar Zone II, Bhopal</span></div>
+                <div class="detail-row"><span class="k">Locality</span><span class="v">MP Nagar (Demo Dataset)</span></div>
+              </div>
+              <div class="passport-section">
+                <h4>Vertical extent &amp; geometry</h4>
+                <div class="detail-row"><span class="k">Elevation range</span><span class="v">12.0 m – 15.1 m</span></div>
+                <div class="detail-row"><span class="k">Area</span><span class="v">92.4 m²</span></div>
+                <div class="detail-row"><span class="k">Volume</span><span class="v">286.4 m³</span></div>
+              </div>
+              <div class="passport-section">
+                <h4>Rights, restrictions &amp; responsibilities</h4>
+                <div class="detail-row"><span class="k">Ownership</span><span class="v" id="passportOwner">A. Sharma (masked)</span></div>
+                <div class="detail-row"><span class="k">Lease status</span><span class="v">Owner-occupied</span></div>
+                <div class="detail-row"><span class="k">Parking entitlement</span><span class="v">1 bay, Basement B1</span></div>
+                <div class="detail-row"><span class="k">Common-area access</span><span class="v">Lift, stair, terrace</span></div>
+                <div class="detail-row"><span class="k">Fire-safety boundary</span><span class="v badge badge-error" style="display:inline-flex">Conflict flagged</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="passport-section">
+                <h4>Verification evidence</h4>
+                <div class="detail-row"><span class="k">Source</span><span class="v">LiDAR + floor plan</span></div>
+                <div class="detail-row"><span class="k">Survey date</span><span class="v">02 Aug 2026</span></div>
+                <div class="detail-row"><span class="k">Surveyor ref.</span><span class="v">SVY-2026-0451</span></div>
+                <div class="detail-row"><span class="k">Officer approval</span><span class="v">Approved</span></div>
+                <div class="confidence-ring-row"><span class="num" style="color:var(--success)">96</span><span class="lab">/100 — High confidence,<br>survey verified</span></div>
+              </div>
+              <div class="passport-section">
+                <h4>Change history</h4>
+                <div class="timeline-mini">
+                  <div class="tmi"><span class="tdot"></span><div><div>Building plan approved</div><div class="tdate">2025</div></div></div>
+                  <div class="tmi"><span class="tdot"></span><div><div>As-built LiDAR survey completed</div><div class="tdate">Aug 2026</div></div></div>
+                  <div class="tmi"><span class="tdot" style="background:var(--error)"></span><div><div>Fire-escape overlap conflict opened</div><div class="tdate">Aug 2026</div></div></div>
+                </div>
+              </div>
+              <div class="passport-section">
+                <h4>Linked documents</h4>
+                <div class="detail-row"><span class="k">Floor plan (PDF)</span><span class="v"><a href="#">View</a></span></div>
+                <div class="detail-row"><span class="k">Survey report</span><span class="v"><a href="#">View</a></span></div>
+              </div>
+              <button class="btn btn-danger btn-block">Report discrepancy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- ANALYTICS & REPORTS -->
+    <section class="view" id="view-analytics">
+      <div class="view-header">
+        <div><h1>Analytics &amp; Reports</h1><div class="sub">MP Nagar operations overview and exportable reports</div></div>
+        <div class="view-actions">
+          <div class="view-toggle" id="analyticsTabToggle"><button class="active" data-tab="dashboards">Dashboards</button><button data-tab="reports">Reports</button></div>
+        </div>
+      </div>
+      <div id="analyticsDashboardsTab">
+        <div class="kpi-grid" id="analyticsKpis"></div>
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Survey &amp; approval trend (weekly)</h3></div>
+            <div class="bar-chart" id="trendChart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Confidence distribution</h3></div>
+            <div class="donut-wrap">
+              <svg viewBox="0 0 42 42" width="140" height="140" id="donutChart"></svg>
+              <div class="donut-legend" id="donutLegend"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Most conflict-prone wards</h3></div>
+            <div id="wardConflictChart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Priority action queue</h3></div>
+            <div id="priorityQueue"></div>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Property tax realization</h3></div>
+            <div id="taxChart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="card-title-row"><h3>Litigation &amp; disputed cases</h3></div>
+            <div id="litigationList"></div>
+          </div>
+          <div class="chart-card">
+            <div class="card-title-row"><h3>DILRMP integration status</h3></div>
+            <div id="dilrmpStatus"></div>
+          </div>
+        </div>
+      </div>
+      <div id="analyticsReportsTab" style="display:none">
+        <div class="grid-3" id="reportsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- PROPOSED INFRASTRUCTURE -->
+    <section class="view" id="view-proposed">
+      <div class="view-header">
+        <div><h1>Proposed Infrastructure</h1><div class="sub">Plan a metro, road, or pipeline route and run a 3D (X, Y, Z) conflict analysis against existing property volumes</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title-row"><h3>Route definition</h3></div>
+          <div id="proposedFormHost"></div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-title-row"><h3>Route preview — MP Nagar</h3></div>
+            <div id="proposedMapHost" style="display:flex;justify-content:center"></div>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>Conflict analysis results</h3></div>
+            <div id="proposedResultsHost"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- VERTICAL STACK -->
+    <section class="view" id="view-vstack">
+      <div class="view-header">
+        <div><h1>Vertical Stack</h1><div class="sub">Airspace, floors, ground, and underground layers for the selected building</div></div>
+        <div class="view-actions" id="vstackBuildingSwitch"></div>
+      </div>
+      <div id="vstackBands"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------- UNDERGROUND / X-RAY -->
+    <section class="view" id="view-underground">
+      <div class="view-header">
+        <div><h1>Underground / X-Ray</h1><div class="sub">Inspect hidden infrastructure beneath the selected building</div></div>
+        <div class="view-actions">
+          <div class="view-toggle" id="undergroundModeToggle"><button class="active" data-umode="surface">Surface</button><button data-umode="xray">X-Ray</button><button data-umode="underground">Underground</button></div>
+        </div>
+      </div>
+      <div class="explorer-shell" style="height:calc(100vh - 220px);grid-template-rows:1fr;grid-template-areas:'layers viewport detail'">
+        <div class="explorer-layers">
+          <h4>Building</h4>
+          <div id="undergroundBuildingSwitch" style="display:flex;flex-direction:column;gap:6px"></div>
+          <div class="divider"></div>
+          <h4>Mode</h4>
+          <p style="font-size:11.5px;color:var(--text-secondary);line-height:1.6">
+            <strong>Surface</strong> — normal 3D view.<br>
+            <strong>X-Ray</strong> — the selected level becomes prominent, others fade so hidden context is visible.<br>
+            <strong>Underground</strong> — reveals utility lines and the metro tunnel with depth labels.
+          </p>
+        </div>
+        <div class="explorer-viewport" id="undergroundViewport"></div>
+        <div class="explorer-detail" id="undergroundDetail"></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- USER & ROLE MANAGEMENT -->
+    <section class="view" id="view-users">
+      <div class="view-header">
+        <div><h1>User &amp; Role Management</h1><div class="sub">Accounts and permission scope across the four role categories</div></div>
+        <div class="view-actions"><button class="btn btn-primary" id="addUserBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add User</button></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title-row"><h3>Permission matrix</h3></div>
+        <div class="table-wrap"><table class="responsive-table">
+          <thead><tr><th>Module</th><th>Government / Planner</th><th>Constructor / Engineer</th><th>Architect / Surveyor</th><th>Public User</th></tr></thead>
+          <tbody id="permissionMatrixBody"></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-title-row"><h3>Users</h3></div>
+        <div class="table-wrap"><table class="responsive-table">
+          <thead><tr><th>Name</th><th>Role</th><th>Organization</th><th>Last active</th><th>Status</th></tr></thead>
+          <tbody id="usersTableBody"></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- SETTINGS -->
+    <section class="view" id="view-settings">
+      <div class="view-header"><div><h1>Settings / Admin</h1><div class="sub">Jurisdiction, roles, and data-source configuration</div></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title-row"><h3>Jurisdiction</h3></div>
+          <div class="field"><label>Active jurisdiction</label><select><option>Bhopal Municipal Area — Ward 12</option><option>Bhopal Municipal Area — Ward 7</option></select></div>
+          <div class="field"><label>Coordinate reference system</label><select><option>WGS 84 / EPSG:4326</option><option>UTM Zone 43N</option></select></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Role permissions</h3><span class="muted-link" data-view="users">Manage in User &amp; Role Management</span></div>
+          <div class="detail-row"><span class="k">Government / Planner</span><span class="v">Full platform access</span></div>
+          <div class="detail-row"><span class="k">Constructor / Engineer</span><span class="v">Explorer, proposed infra, conflicts, reports</span></div>
+          <div class="detail-row"><span class="k">Architect / Surveyor</span><span class="v">Explorer, vertical stack, underground, survey intake</span></div>
+          <div class="detail-row"><span class="k">Public User</span><span class="v">Explorer (public view), search, passport (masked)</span></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-title-row"><h3>Standards compliance — LADM (ISO 19152)</h3></div>
+          <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Records map to the ISO 19152 Land Administration Domain Model so this data can interoperate with LADM-compliant systems.</p>
+          <div id="ladmMapping"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Legacy ID mapping</h3></div>
+          <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Existing Khasra / survey numbers remain traceable to their parent ULPIN and generated 3D volumes.</p>
+          <div class="table-wrap"><table class="responsive-table"><thead><tr><th>Khasra / Survey No.</th><th>Parent ULPIN</th><th>3D volumes</th><th>Migration status</th></tr></thead><tbody id="legacyMappingBody"></tbody></table></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-title-row"><h3>Export configuration</h3></div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary)">
+          <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" checked>GeoJSON</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" checked>CityGML</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="checkbox">Shapefile</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" checked>CSV</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="checkbox">Printable map</label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================= MOBILE BOTTOM NAV ============================= -->
+<nav class="bottom-nav">
+  <button class="active" data-view="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Home</button>
+  <button data-view="explorer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/></svg>Map</button>
+  <button data-view="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
+  <button data-view="approvals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Tasks</button>
+  <button data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</button>
+</nav>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- ============================= CONFLICT DETAIL DRAWER ============================= -->
+<div class="drawer-overlay" id="conflictDrawer">
+  <div class="drawer-panel" id="conflictDrawerPanel"></div>
+</div>
+
+<!-- ============================= APPROVAL CASE DRAWER ============================= -->
+<div class="drawer-overlay" id="caseDrawer">
+  <div class="drawer-panel" id="caseDrawerPanel"></div>
+</div>
+
+<!-- ============================= INFRASTRUCTURE DETAIL DRAWER ============================= -->
+<div class="drawer-overlay" id="infraDrawer">
+  <div class="drawer-panel" id="infraDrawerPanel"></div>
+</div>
+
+<!-- ============================= AUTH OVERLAY ============================= -->
+<div class="auth-overlay" id="authOverlay"></div>
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
