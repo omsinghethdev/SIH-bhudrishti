@@ -3,6 +3,7 @@ import enum
 from datetime import datetime
 
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     DateTime,
     Float,
@@ -144,7 +145,8 @@ class Dataset(Base):
     stored_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
     url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     content_type: Mapped[str | None] = mapped_column(String(120), nullable=True)
-    size_bytes: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # BigInteger: a multi-GB point cloud overflows PostgreSQL's 32-bit integer.
+    size_bytes: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     kind: Mapped[str | None] = mapped_column(String(60), nullable=True)  # lidar/floorplan/geojson/orthophoto
     crs: Mapped[str | None] = mapped_column(String(40), nullable=True)
     meta: Mapped[str | None] = mapped_column(String(255), nullable=True)  # human-readable meta line

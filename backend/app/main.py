@@ -6,6 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.engine import make_url
 from sqlalchemy.exc import IntegrityError
 
 from .config import settings
@@ -77,4 +78,7 @@ async def integrity_error_handler(request: Request, exc: IntegrityError):
 
 @app.get("/api/health", tags=["insights"])
 def health():
-    return {"status": "ok", "database": settings.database_url.split("///")[-1]}
+    # Never echo the raw URL: a PostgreSQL DSN carries the password, and this
+    # endpoint is unauthenticated (it is what the load balancer polls).
+    url = make_url(settings.database_url)
+    return {"status": "ok", "database": f"{url.get_backend_name()}:{url.database}"}
